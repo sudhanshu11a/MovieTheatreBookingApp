@@ -35,6 +35,16 @@ public class BookTicket extends BaseEntity {
     public BookTicket() {
     }
 
+    public BookTicket(String userId, String showId, String seatCategoryId, Set<String> seatIds, BigDecimal amountPaid, PaymentType paymentType, BookingStatus status) {
+        this.userId = userId;
+        this.showId = showId;
+        this.seatCategoryId = seatCategoryId;
+        this.seatIds = seatIds;
+        this.amountPaid = amountPaid;
+        this.paymentType = paymentType;
+        this.status = status;
+    }
+
     /**
      * @param id
      * @param createdBy

@@ -62,15 +62,15 @@ public class SeatCategory extends BaseEntity {
         this.seats = seats;
     }
 
-    public Optional<List<Seat>> bookSeats(int numberOfSeats){
+    public Optional<Set<Seat>> bookSeats(int numberOfSeats){
         if(totalSeats>numberOfSeats){
-            List<Seat> seatList = new ArrayList<>(numberOfSeats);
+            Set<Seat> bookedSeats = new HashSet<>(numberOfSeats);
             for(int i=0; i< numberOfSeats; i++){
                 Seat seat = new Seat(totalSeats-availableSeats+1+"", true);
                 availableSeats--;
-                seatList.add(seat);
+                bookedSeats.add(seat);
             }
-            return Optional.of(seatList);
+            return Optional.of(bookedSeats);
         }
         return Optional.empty();
     }
@@ -123,11 +123,4 @@ public class SeatCategory extends BaseEntity {
         this.seats = seats;
     }
 
-//    public Show getShow() {
-//        return show;
-//    }
-//
-//    public void setShow(Show show) {
-//        this.show = show;
-//    }
 }

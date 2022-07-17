@@ -1,8 +1,10 @@
 package org.sapient.test.xyz.service;
 
 import org.sapient.test.xyz.entity.BookTicket;
+import org.sapient.test.xyz.enums.PaymentType;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Sudhanshu Sharma
@@ -13,7 +15,11 @@ public interface BookingService {
 
     List<BookTicket> getAllBooking() throws Exception;
 
-    BookTicket getBookTicket(String name) throws Exception;
+    List<BookTicket> getAllBookingByUserId(String name) throws Exception;
+
+    Optional<BookTicket> getBookingByBookId(String bookingId) throws Exception;
+
+    Optional<BookTicket> bookTicket(String userId, String showId, int numberOfSeats, PaymentType paymentType) throws Exception;
 
     BookTicket saveBookTicket(BookTicket bookTicket) throws Exception;
 

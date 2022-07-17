@@ -5,6 +5,7 @@ import org.sapient.test.xyz.service.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,11 +21,13 @@ public class ShowController {
     @Autowired
     private ShowService showService;
 
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Show> saveShow(@RequestBody Show show) throws Exception {
         return ResponseEntity.ok().body(showService.saveShow(show));
     }
 
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping(value = "/{theatreId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Show> updateShow(@PathVariable String showId, @RequestBody Show show) throws Exception {
         return ResponseEntity.ok().body(showService.updateShow(showId, show));
@@ -40,6 +43,7 @@ public class ShowController {
         return ResponseEntity.ok().body(showService.getShow(showId));
     }
 
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @DeleteMapping(value = "/{showId}")
     public ResponseEntity<Boolean> deleteShow(@PathVariable String showId) throws Exception {
         return ResponseEntity.ok().body(showService.deleteShow(showId));

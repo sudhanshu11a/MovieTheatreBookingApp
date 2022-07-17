@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Sudhanshu Sharma
@@ -31,7 +31,8 @@ public class BookingController {
     @PreAuthorize("hasAnyAuthority('ROLE_MANAGER', 'ROLE_USER')")
     @GetMapping(value = "/secure/ticket/booking/{bookingId}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<BookTicket> getBooking(@PathVariable String bookingId) throws Exception {
-        return ResponseEntity.ok().body(bookingService.getBookTicket(bookingId));
+        Optional<BookTicket> bookTicketOptional = bookingService.getBookingByBookId(bookingId);
+        return ResponseEntity.of(bookTicketOptional);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_MANAGER', 'ROLE_USER')")

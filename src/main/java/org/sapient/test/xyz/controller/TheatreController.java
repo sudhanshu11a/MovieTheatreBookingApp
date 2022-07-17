@@ -5,7 +5,6 @@ import org.sapient.test.xyz.service.TheatreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +27,7 @@ public class TheatreController {
         return ResponseEntity.ok().body(theatreService.saveTheatre(theatre));
     }
 
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping(value = "/{theatreId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Theatre> updateTheatre(@PathVariable String theatreId, @RequestBody Theatre theatre) throws Exception {
         return ResponseEntity.ok().body(theatreService.updateTheatre(theatreId, theatre));

@@ -1,6 +1,7 @@
 package org.sapient.test.xyz.service.impl;
 
 import org.sapient.test.xyz.entity.*;
+import org.sapient.test.xyz.enums.PaymentType;
 import org.sapient.test.xyz.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,13 +10,14 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Sudhanshu Sharma
@@ -55,9 +57,7 @@ public class InitialLoadDataImpl implements InitialLoadData, ApplicationRunner {
     private void createBookings(List<Show> showList) throws Exception {
         //Create Bookings
         for (Show show : showList) {
-            SeatCategory seatCategory = seatCategoryService.getSeatCategory(show.getSeatCategoryId());
-            Optional<List<Seat>> optionalSeatList = seatCategory.bookSeats(5);
-            BookTicket bookTicket = new BookTicket();
+            bookingService.bookTicket("DummyUserId", show.getId(), 5, PaymentType.DEBIT_CARD);
         }
     }
 
@@ -65,7 +65,7 @@ public class InitialLoadDataImpl implements InitialLoadData, ApplicationRunner {
         //Create Shows
         List<SeatCategory> seatCategoryList = seatCategoryService.getAllSeatCategory();
         List<Movie> movieList = movieService.getAllMovies();
-        List<Show> showList = new ArrayList<>(seatCategoryList.size()*movieList.size());
+        List<Show> showList = new ArrayList<>(seatCategoryList.size() * movieList.size());
         for (int i = 0; i < seatCategoryList.size(); i++) {
             for (int j = 0; j < movieList.size(); j++) {
                 Show show = new Show(seatCategoryList.get(i).getTheatreId(), j, movieList.get(j).getId(), ZonedDateTime.now(), ZonedDateTime.now().plusHours(3), seatCategoryList.get(i).getId());
@@ -131,14 +131,13 @@ public class InitialLoadDataImpl implements InitialLoadData, ApplicationRunner {
      * @throws Exception
      */
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         LOGGER.info("Application initial Data Loading Started");
         try {
             loadData();
             LOGGER.info("Application initial Data Loaded Successfully");
         } catch (Exception e) {
-            LOGGER.error("Loading Initial data failed due to exception : " + e.getMessage());
-            //e.printStackTrace();
+            LOGGER.error("Loading Initial data failed due to exception : {} ", e.getMessage());
         }
     }
 }
