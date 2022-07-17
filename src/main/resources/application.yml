@@ -7,7 +7,7 @@ spring:
     password: password
     driverClassName: org.h2.Driver
   jpa:
-    show-sql: true
+    show-sql: false
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
   h2:
     console:
@@ -15,7 +15,3 @@ spring:
       console.path: /h2-console
       console.settings.trace: false
       spring.h2.console.settings.web-allow-others: false
-  #security:
-   # basic:
-    #  enabled: true
-      #authorize-mode: NONE

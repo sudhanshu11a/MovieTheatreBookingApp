@@ -38,12 +38,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and().cors().and().csrf().disable()
-//                //.formLogin().disable()
-//                //.httpBasic().disable()
-//                //.logout().disable()
                 .headers().frameOptions().disable()
                 .and().httpBasic();
-//                //.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);;
+//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);;
 
     }
 

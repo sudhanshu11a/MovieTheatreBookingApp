@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +39,9 @@ public class BookingController {
     @PreAuthorize("hasAnyAuthority('ROLE_MANAGER', 'ROLE_USER')")
     @PostMapping(value = "/secure/ticket/booking", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<BookTicket> saveBooking(@RequestBody BookTicket booking) throws Exception {
-        return ResponseEntity.ok().body(bookingService.saveBookTicket(booking));
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<BookTicket> optionalBookTicket = bookingService.bookTicket(username, booking.getShowId(), booking.getSeatIds().size(), booking.getPaymentType());
+        return ResponseEntity.of(optionalBookTicket);
     }
 
     @PreAuthorize("hasAnyAuthority('ROLE_MANAGER', 'ROLE_USER')")
